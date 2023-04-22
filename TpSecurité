@@ -1,0 +1,54 @@
+NDOMA BONGO ELYSEE 
+L2GENIE
+
+public class Feistel{
+public static void main(Strings args[]){
+
+}
+
+public static String OuLogique(String val1, String val2) {    String res = "";    String[] tabk = new String[val1.length()];    for (int i = 0; i < val1.length(); i++) {        String v1 = val1.substring(i, i + 1);        String v2 = val2.substring(i, i + 1);        tabk[i] = (v1.equals("1") || v2.equals("1")) ? "1" : "0";    }    for (String i : tabk) {        res += i;    }    return res;}
+
+public static String inverse_permut(String k) {    
+String res = "";    int[] tabk = new int[k.length()];    
+for (int i = 0; i < k.length(); i++) {      
+  int id = Integer.parseInt(k.substring(i, i + 1));        tabk[id] = i;    }    for (int i = 0; i < tabk.length; i++) 
+{     
+   res += Integer.toString(tabk[i]);  
+  }    //System.out.println("res inverse: " + res);    return res;}
+
+public static String decalage(String val, int ordre, boolean gauche) {    
+String res = "";    
+String[] tabk = new String[val.length()];   
+ int s = gauche ? -1 : 1;  
+  for (int i = 0; i < val.length(); i++) {        String v1 = val.substring(i, i + 1);   
+     int o = ordre;        int j = i;      
+  while (o > 0) {      
+      if (j + s < 0) {          
+      j = val.length() - 1;        
+    } else if (j + s >= val.length()) 
+{                j = 0;      
+      } else {          
+      j += s;          
+  }            o--;      
+  }        tabk[j] = v1;    
+}   
+ for (String s1 : tabk) { 
+       if (s1 != null) {         
+   res += s1;     
+   }   
+ }    return res;
+}
+public static String OuExclusif(String val1, String val2) {    String res = "";    String[] tabk = new String[val1.length()];    for (int i = 0; i < val1.length(); i++) {        String v1 = val1.substring(i, i+1);        String v2 = val2.substring(i, i+1);        tabk[i] = v1.equals(v2) ? "0" : "1";    }    for (String i : tabk) {        res += i;    }    return res;} 
+public static String ETlogique(String va11, String val2) {    String res = "";    String[] tabk = new String[va11.length()];        for (int i = 0; i < va11.length(); i++) {        String v1 = va11.substring(i, i + 1);        String v2 = val2.substring(i, i + 1);        tabk[i] = (v1.equals("1") && v2.equals("1")) ? "1" : "0";    }        res = String.join("", tabk);    return res;}
+
+ public static String permut(String val, String k) {    String res = "";    char[] tabk = new char[val.length()];    for (int i = 0; i < val.length(); i++) {        String id = k.substring(i, i + 1);        int vid = Integer.parseInt(id);        tabk[i] = val.charAt(vid);        res += tabk[i];        //System.out.println("res permut " + res);    }    return res;}  
+public static String generateKey(String k, String pk, int gdecalage, int ddecalage) {    String res = "";    String nk = permut(k, pk);    String k1 = nk.substring(0, 4);    String k2 = nk.substring(4, 8);    String nk1 = OuExclusif(k1, k2);    String nk2 = ETlogique(k1, k2);    String dnk1 = decalage(nk1, gdecalage, true);    String dnk2 = decalage(nk2, ddecalage, false);    res = dnk1 + "," + dnk2;    //System.out.println("res keygen " + res);    return res;}
+public static String roundDChiffre(String val, String kp, String k) {    String res = "";    String perm = permut(val, kp);    res = OuExclusif(perm, k);    return res;}
+}
+
+public static String roundGChiffre(String vald, String valg, String k) {    String res = "";    String fc = OuLogique(valg, k);    res = OuExclusif(vald, fc);    return res;}
+
+public static String roundGDechiffre(String val, String kp, String k) {    String res = "";    String nkp = inverse_permut(kp);    String c = OuExclusif(val, k);    res = permut(c, nkp);    return res;} 
+
+public class Main {    public static void main(String[] args) {        System.out.println("********ALGORITHME DE FREISNEL CIPHER*********");        System.out.println("Donnez une clé K de longueur 8");        Scanner scanner = new Scanner(System.in);        String key = scanner.nextLine();        while (key.length() < 8) {            System.out.println("La taille de la clé doit être de longueur 8");            key = scanner.nextLine();        }        System.out.println("Donnez la fonction H de permutation");        String h = scanner.nextLine();        while (h.length() < 8) {            System.out.println("La taille doit être de longueur 8");            h = scanner.nextLine();        }        int decg = 0;        int decd = 0;        System.out.println("Entrez l'ordre de décalage à gauche");        decg = scanner.nextInt();        while (decg <= 0) {            System.out.println("L'ordre doit être supérieur à 0");            decg = scanner.nextInt();        }        System.out.println("Entrez l'ordre de décalage à droite");        decd = scanner.nextInt();        while (decd <= 0) {            System.out.println("L'ordre doit être supérieur à 0");            decd = scanner.nextInt();        }        String kgen = generateKey(key, h, decg, decd);        System.out.println("Entrez la valeur N ou C à traiter");        String n = scanner.nextLine();        while (n.length() < 8) {            System.out.println("La taille doit être de longueur 8");            n = scanner.nextLine();        }        int choix = -1;        while (choix != 1 && choix != 2) {            System.out.println("Voulez-vous chiffrer ou dechiffrer? (1 pour dechiffrer et 2 pour chiffrer)");            choix = scanner.nextInt();        }    }        public static String generateKey(String key, String h, int decg, int decd) {        // implementation de la fonction generateKey    } int choix = scanner.nextInt();    System.out.println("Entrez la permutation P de 4 bits");    String p = scanner.next();    while (p.length() < 4) {      System.out.println("La taille doit être de longueur 4");      p = scanner.next();    }    System.out.println("Entrez la clé de permutation pour l'opération de chiffrement ou déchiffrement");    String keyc = scanner.next();    while (keyc.length() < 8) {      System.out.println("La taille doit être de longueur 8");      keyc = scanner.next();    }    String[] tkey = kgen.split(",");    if (choix == 2) {      String pn = permut(n, keyc);      String g0 = pn.substring(0, 4);      String d0 = pn.substring(4, 8);      String d1 = roundDChiffre(g0, p, tkey[0]);      String g1 = roundGChiffre(d0, g0, tkey[0]);      String d2 = roundDChiffre(g1, p, tkey[1]);      String g2 = roundGChiffre(d1, g1, tkey[1]);      String c = g2 + d2;      String ikey = inverse_permut(keyc);      String res = permut(c, ikey);      System.out.println("La valeur chiffrée est :" + res);    } else {      String pn = permut(n, keyc);      String g2 = pn.substring(0, 4);      String d2 = pn.substring(4, 8);      String g1 = roundGDechiffre(d2, p, tkey[1]);      String d1 = roundDDechiffre(g2, g1, tkey[1]);      String g0 = roundGDechiffre(d1, p, tkey[0]);      String d0 = roundDDechiffre(g1, g0, tkey[0]);      String Nd = g0 + d0;      String ikey = inverse_permut(keyc);      String res = permut(Nd, ikey);      System.out.println("La valeur déchiffrée est :" + res);    }  }}
+
